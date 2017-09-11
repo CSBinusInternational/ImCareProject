@@ -133,6 +133,62 @@ class PenyakitDao
         return $result;	
     
     }
+    
+    public function update_penyakit($penyakit){
+        $result = FALSE;
+        try {
+            $conn = Koneksi::get_connection();
+            $sql = "UPDATE penyakit  
+                    SET 
+                        nmpenyakit = ?,
+                        despenyakit = ?,
+                        fketurunan = ?,
+                        menular = ?,
+                        kronis = ?
+                    WHERE kdpenyakit = ?";
+            $conn -> beginTransaction();
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindValue(1, $penyakit->getNmpenyakit() );
+            $stmt -> bindValue(2, $penyakit->getDespenyakit() );
+            $stmt -> bindValue(3, $penyakit->getFketurunan() );
+            $stmt -> bindValue(4, $penyakit->getMenular() );
+            $stmt -> bindValue(5, $penyakit->getKronis() );
+            $stmt -> bindValue(6, $penyakit->getKdpenyakit() );
+            
+            $result = $stmt -> execute();
+            $conn -> commit();
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+            $conn -> rollBack();
+            die();
+        }
+        $conn = null;
+        return $result;	
+    }
+    
+    public function update_url($image_url,$kdpenyakit){
+        $result = FALSE;
+        try {
+            $conn = Koneksi::get_connection();
+            $sql = "UPDATE penyakit  
+                    SET 
+                        image_url = ?
+                    WHERE kdpenyakit = ?";
+            $conn -> beginTransaction();
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindValue(1, $image_url );
+            $stmt -> bindValue(2, $kdpenyakit );
+            
+            $result = $stmt -> execute();
+            $conn -> commit();
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+            $conn -> rollBack();
+            die();
+        }
+        $conn = null;
+        return $result;	
+    }
 }
 
 ?>

@@ -16,15 +16,91 @@
         $penyakit->setFketurunan($fketurunan);
         $penyakit->setKronis($kronis);
         $penyakit->setMenular($menular);
+        
         $penyakit->setImage_url("https://imcare.000webhostapp.com/images/1.png");
-        $penyakit->setVideo_url("https://imcare.000webhostapp.com/videos/cancer.mp4");
         
-        $penyakitdao = new PenyakitDao();
-        $kdpenyakit = $penyakitdao->insert_penyakit($penyakit);
+        if(is_uploaded_file($_FILES['gambar']['tmp_name'])){
+            $name = $_FILES["gambar"]["name"];
+            $ext = (explode(".", $name)); 
+            $ext = end($ext);
+            
+            $penyakitdao = new PenyakitDao();
+            $kdpenyakit = $penyakitdao->insert_penyakit($penyakit);
+            
+            $path = "images/".$kdpenyakit.".".$ext;
+            $urlgambar = "https://imcare.000webhostapp.com/".$path;
+            $penyakitdao->update_url($urlgambar, $kdpenyakit);
+            move_uploaded_file ($_FILES['gambar'] ['tmp_name'], $path);
+        }
         
+        echo "<script>alert('data penyakit berhasil ditambahkan');</script>";
         //echo "alert('Kode Penyakit = '+$kdpenyakit);";
         //echo $nmpenyakit." ".$despenyakit." ".$fketurunan." ".$kronis." ".$menular;
     }
+    
+    if(isset($_POST['tambahvideo'])){
+        $judulvideo = $_POST['judulvideo'];
+        $kdpenyakit = $_POST['kdpenyakit'];
+        
+      
+        
+        if (is_uploaded_file($_FILES['video']['tmp_name']))
+        {
+            $name = $_FILES["video"]["name"];
+            $ext = (explode(".", $name)); 
+            $ext = end($ext);
+            $video = new Video();
+            $video->setKdpenyakit($kdpenyakit);
+            $video->setJudulvideo($judulvideo);
+            $video->setUrlvideo("");
+            
+            $videodao = new VideoDao();
+            $novideo = $videodao->insert_video($video);
+            $path = "videos/".$novideo.".".$ext;
+            $urlvideo = "https://imcare.000webhostapp.com/".$path;
+            $videodao->update_url($urlvideo, $novideo);
+            move_uploaded_file ($_FILES['video'] ['tmp_name'], $path);
+            
+            echo "<script>alert('video sukses terupload');</script>";
+        }
+        else{
+            echo "<script>alert('mohon pilih file untuk di upload');</script>";
+        }
+    }
+    
+    if(isset($_POST['editpenyakit'])){
+        $kdpenyakit = $_POST['kdpenyakit'];
+        $nmpenyakit = $_POST['nmpenyakit'];
+        $despenyakit = $_POST['despenyakit'];
+        $fketurunan = $_POST['fketurunan'];
+        $kronis = $_POST['kronis'];
+        $menular = $_POST['menular'];
+        $penyakitdao = new PenyakitDao();
+        
+          $penyakit = new Penyakit();
+        $penyakit->setKdpenyakit($kdpenyakit);
+        $penyakit->setNmpenyakit($nmpenyakit);
+        $penyakit->setDespenyakit($despenyakit);
+        $penyakit->setFketurunan($fketurunan);
+        $penyakit->setKronis($kronis);
+        $penyakit->setMenular($menular);
+        
+        if(is_uploaded_file($_FILES['gambar']['tmp_name'])){
+            $name = $_FILES["gambar"]["name"];
+            $ext = (explode(".", $name)); 
+            $ext = end($ext);
+            
+            
+            $path = "images/".$kdpenyakit.".".$ext;
+            $urlgambar = "https://imcare.000webhostapp.com/".$path;
+            $penyakitdao->update_url($urlgambar, $kdpenyakit);
+            move_uploaded_file ($_FILES['gambar'] ['tmp_name'], $path);
+        }
+        
+        $penyakitdao->update_penyakit($penyakit);
+        echo "<script>alert('data penyakit berhasil disimpan');</script>";
+    }
+    
 ?>
 
 
@@ -53,11 +129,12 @@
           <table class="table table-hover">
             <tr>
               <th style="width:5%">No</th>
-              <th style="width:25%">Penyakit</th>
-              <th style="width:35%">Deskripsi</th>
-              <th style="width:10%">Keturunan</th>
-              <th style="width:10%">Menular</th>
-              <th style="width:10%">Kronis</th>
+              <th style="width:15%">Penyakit</th>
+              <th style="width:25%">Deskripsi</th>
+              <th style="width:5%">Keturunan</th>
+              <th style="width:5%">Menular</th>
+              <th style="width:5%">Kronis</th>
+              <th style="width:25%">Action</th>
             </tr>
             <?php
                 $number = 1;
@@ -71,6 +148,12 @@
                     echo "<td>".$iterator->current()->getFketurunan()."</td>";
                     echo "<td>".$iterator->current()->getMenular()."</td>";
                     echo "<td>".$iterator->current()->getKronis()."</td>";
+                    echo 
+                     "<td>"
+                    . "<button class='btn btn-danger' style='margin:5px;' onclick='showEditInfo(\"".$iterator->current()->getKdpenyakit()."\",\"".$iterator->current()->getNmpenyakit()."\",\"".$iterator->current()->getDespenyakit()."\",\"".$iterator->current()->getFketurunan()."\",\"".$iterator->current()->getMenular()."\",\"".$iterator->current()->getKronis()."\")'>Edit</button>"
+                    . "<button class='btn btn-success' style='margin:5px;' onclick='showAddVideo(\"".$iterator->current()->getKdpenyakit()."\")'>Video</button>"
+                    . "<button class='btn btn-warning' style='margin:5px;' onclick='showAddArtikel(\"".$iterator->current()->getKdpenyakit()."\")'>Artikel</button>"
+                    . "</td>";
                     echo "</tr>";
                     $number++;
                     $iterator->next();
@@ -95,6 +178,39 @@ function showModal()
 //    $("#timeTableModal .modal-title").html("Pilih Jadwal untuk "+hari+" pukul "+time)
     $("#timeTableModal").modal();
 }
+
+function showAddVideo(kdpenyakit)
+{
+    $("#addVideoModal .kdpenyakit").val(kdpenyakit);
+    $('#addVideoModal').modal();
+}
+
+function showAddArtikel(kdpenyakit)
+{
+    $("#addArtikelModal .kdpenyakit").val(kdpenyakit);
+    $('#addArtikelModal').modal();
+}
+
+function showEditInfo(kdpenyakit,nmpenyakit,despenyakit,fketurunan,menular,kronis)
+{
+    $("#editInfoModal .kdpenyakit").val(kdpenyakit);
+    $("#editInfoModal .nmpenyakit").val(nmpenyakit);
+    $("#editInfoModal .despenyakit").val(despenyakit);
+
+    $('#editInfoModal').modal();
+}
+
+function gotolistvideo(){
+    var kdpenyakit = document.getElementById("kdpenyakitvideo").value;
+    //alert(kdpenyakit);
+    window.location='index.php?page=videolist&kdpenyakit='+kdpenyakit;
+}
+
+function gotolistartikel(){
+    var kdpenyakit = document.getElementById("kdpenyakitartikel").value;
+    //alert(kdpenyakit);
+    window.location='index.php?page=artikellist&kdpenyakit='+kdpenyakit;
+}
 </script>
 
 <div class="modal fade" id="timeTableModal" tabindex="-1" role="dialog" aria-labelledby="Book">
@@ -116,13 +232,8 @@ function showModal()
                         <textarea name="despenyakit" placeholder="Deskripsi Penyakit" class="form-control" style="margin-bottom: 10px" required></textarea>
                         
                         Gambar (.jpg/.png)
-                        <input name="gambar_url"type="file" class="form-control" style="margin-bottom: 10px"/>  
-                        
-                        Video (.mp4/.3gp)
-                        <input name="video_url" type="file" class="form-control" style="margin-bottom: 10px"/>  
-                       
-                       
-                        
+                        <input name="gambar" type="file" class="form-control" style="margin-bottom: 10px"/>  
+                         
                         <div class="col-md-offset-3">
                         Faktor Keturunan <br>
                         <input type="radio" name="fketurunan" checked="checked" class="radio-inline" value="01"/>Ya<input type="radio" name="fketurunan" class="radio-inline" value="00"/>Tidak
@@ -150,3 +261,124 @@ function showModal()
   </div>
 </div>
 
+
+<div class="modal fade" id="addVideoModal" tabindex="-1" role="dialog" aria-labelledby="Book">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+            
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Tambah Video</h4>
+	  </div>
+            
+            
+        <div class="modal-body">
+            <button class="btn btn-info" onclick="gotolistvideo()">Lihat Daftar Video</button><br><br>
+            <form action='' method='post' enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        
+                        <input name="kdpenyakit" type="hidden" class="kdpenyakit" id="kdpenyakitvideo"/>
+                        
+                        <input name="judulvideo" type="text" class="form-control" placeholder="Judul Video" style="margin-bottom: 10px" required>
+                        
+                        Video (.mp4/.3gp)
+                        <input name="video" type="file" class="form-control" style="margin-bottom: 10px"/>  
+                       
+                        <input type="submit" name="tambahvideo" class="btn btn-primary" value="Tambah Video">
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
+                    </div>
+                    <div class="col-md-4">
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addArtikelModal" tabindex="-1" role="dialog" aria-labelledby="Book">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+            
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Tambah Artikel</h4>
+	  </div>
+            
+            
+        <div class="modal-body">
+            <button class="btn btn-info" onclick="gotolistartikel()">Lihat Daftar Artikel</button><br><br>
+            <form action='' method='post' enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <input type="hidden" class="kdpenyakit" id="kdpenyakitartikel"/>
+                         <input name="nmartikel" type="text" class="form-control" placeholder="Nama Artikel" style="margin-bottom: 10px" required>
+                   
+                    
+                        <input type="submit" name="tambahartikel" class="btn btn-primary" value="Tambah Artikel">
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
+                    </div>
+                    <div class="col-md-4">
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editInfoModal" tabindex="-1" role="dialog" aria-labelledby="Book">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+            
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Ubah Informasi Penyakit</h4>
+	  </div>
+            
+            
+        <div class="modal-body">
+            <form action='' method='post' enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        
+                        <input name="kdpenyakit" type="hidden" class="kdpenyakit"/>
+                        <input name="nmpenyakit" type="text" class="nmpenyakit form-control" placeholder="Nama Penyakit" style="margin-bottom: 10px" required>
+                        
+                        <textarea name="despenyakit" placeholder="Deskripsi Penyakit" class="despenyakit form-control" style="margin-bottom: 10px" required></textarea>
+                        
+                        Gambar (.jpg/.png)
+                        <input name="gambar"type="file" class="form-control" style="margin-bottom: 10px"/>  
+                         
+                        <div class="col-md-offset-3">
+                        Faktor Keturunan <br>
+                        <input type="radio" name="fketurunan" checked="checked" class="radio-inline" value="01"/>Ya<input type="radio" name="fketurunan" class="radio-inline" value="00"/>Tidak
+                        <br>
+                        <br>
+                        Menular <br>
+                        <input type="radio" name="menular" checked="checked" class="radio-inline" value="01"/>Ya<input type="radio" name="menular" class="radio-inline" value="00"/>Tidak
+                        <br>
+                        <br>
+                        Kronis <br>
+                        <input type="radio" name="kronis" checked="checked" class="radio-inline" value="01"/>Ya<input type="radio" name="kronis" class="radio-inline" value="00"/>Tidak
+                        <br>
+                        <br>
+                        </div>
+                        <input type="submit" name="editpenyakit" class="btn btn-primary" value="Ubah Penyakit">
+                        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
+                    </div>
+                    <div class="col-md-4">
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+</div>

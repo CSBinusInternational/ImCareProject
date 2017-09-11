@@ -16,8 +16,11 @@ include_once 'function/config.php';
 
 include_once 'dao/Penyakit.php';
 include_once 'dao/PenyakitDao.php';
+include_once 'dao/Video.php';
+include_once 'dao/VideoDao.php';
 
 $penyakitdao = new PenyakitDao();
+$videodao = new VideoDao();
 
 ?>
 <!DOCTYPE html>
@@ -103,7 +106,6 @@ $penyakitdao = new PenyakitDao();
               </a>
               <ul class="treeview-menu">
                 <li><a href="index.php?page=infopenyakit"><i class="fa fa-info-circle"></i> Informasi</a></li>
-                <li><a href="index.php?page=artikel"><i class="fa fa-newspaper-o"></i> Artikel</a></li>
               </ul>
             </li>
             
@@ -171,6 +173,12 @@ $penyakitdao = new PenyakitDao();
             switch($page){
                 case "infopenyakit":
                     include_once 'view/infopenyakit.php';
+                    break;
+                case "videolist":
+                    include_once 'view/videolist.php';
+                    break;
+                case "artikellist":
+                    include_once 'view/artikellist.php';
                     break;
                 default:
                     include_once 'view/notimplemented.php';
