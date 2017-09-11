@@ -12,6 +12,7 @@
  * @author Feechan
  */
 include_once 'Video.php';
+include_once 'PenyakitDao.php';
 
 class VideoDao {
     //put your code here
@@ -20,9 +21,45 @@ class VideoDao {
         $video->setNovideo($row['novideo']);
         $video->setJudulvideo($row['judulvideo']);
         $video->setUrlvideo($row['urlvideo']);
-        $video->setKdpenyakit($row['kdpenyakit']);
+        $kdpenyakit = $row['kdpenyakit'];
+        
+        $penyakitdao = new PenyakitDao();
+        $penyakit = $penyakitdao->get_one_penyakit($kdpenyakit);
+        
+        $video->setKdpenyakit($kdpenyakit);
+        $video->setPenyakit($penyakit);
         
         return $video;
+    }
+    
+    public function get_video_by_kdpenyakit($kdpenyakit){
+        $videos = new ArrayObject();
+        try 
+        {
+            $conn = Koneksi::get_connection();
+            $query = "SELECT * from video where kdpenyakit = ?";
+            $stmt = $conn -> prepare($query);
+            $stmt -> bindValue(1, $kdpenyakit );
+            $stmt -> execute();
+            if ($stmt -> rowCount() > 0) {
+                while ($row = $stmt -> fetch()) {
+                    $video = $this ->get_video_row($row);
+                    $videos->append($video);
+                }
+            }
+        } 
+        catch (PDOException $e) {
+            echo $e -> getMessage();
+            die();
+        }
+        try {
+            if (!empty($conn) || $conn != null) {
+                $conn = null;
+            }
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+        }
+        return $videos;
     }
     
     public function insert_video($video){

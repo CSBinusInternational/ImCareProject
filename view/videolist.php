@@ -1,3 +1,12 @@
+<?php
+if(isset($_GET['kdpenyakit']))
+{
+    $kdpenyakit = $_GET['kdpenyakit'];
+}
+else{
+    $kdpenyakit = 0;
+}
+?>
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -26,7 +35,24 @@
               <th style="width:40%">Video</th>
               <th style="width:10%">Action</th>
             </tr>
-            
+            <?php
+                $number = 1;
+                $videodao = new VideoDao();
+                $iterator = $videodao->get_video_by_kdpenyakit($kdpenyakit) ->getIterator();
+                while ($iterator -> valid()) 
+                {
+                    echo "<tr>";
+                    echo "<td>".$number."</td>";
+                    echo "<td>".$iterator->current()->getJudulvideo()."</td>";
+                    echo "<td><a href=".$iterator->current()->getUrlvideo().">".$iterator->current()->getUrlvideo()."</a></td>";
+                    echo "<td>";
+                    echo "<button class='btn btn-danger'>Hapus</button>";
+                    echo "</td>";
+                    echo "</tr>";
+                    $number++;
+                    $iterator->next();
+                }
+            ?>
           </table>
         </div><!-- /.box-body -->
       </div><!-- /.box -->
