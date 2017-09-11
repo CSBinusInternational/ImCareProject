@@ -68,6 +68,21 @@
         }
     }
     
+    if(isset($_POST['tambahartikel'])){
+        $kdpenyakit = $_POST['kdpenyakit'];
+        $judulartikel = $_POST['judulartikel'];
+        $contentartikel = $_POST['contentartikel'];
+        
+        $artikel = new Artikel();
+        $artikel->setJudulartikel($judulartikel);
+        $artikel->setContentartikel($contentartikel);
+        $artikel->setKdpenyakit($kdpenyakit);
+        
+        $artikeldao = new ArtikelDao();
+        $artikeldao->insert_artikel($artikel);
+        echo "<script>alert('data artikel berhasil ditambah');</script>";
+    }
+    
     if(isset($_POST['editpenyakit'])){
         $kdpenyakit = $_POST['kdpenyakit'];
         $nmpenyakit = $_POST['nmpenyakit'];
@@ -315,10 +330,13 @@ function gotolistartikel(){
                 <div class="row">
                     <div class="col-md-12">
                         
-                        <input type="hidden" class="kdpenyakit" id="kdpenyakitartikel"/>
-                         <input name="nmartikel" type="text" class="form-control" placeholder="Nama Artikel" style="margin-bottom: 10px" required>
+                        <input name="kdpenyakit" type="hidden" class="kdpenyakit" id="kdpenyakitartikel"/>
+                         <input name="judulartikel" type="text" class="form-control" placeholder="Nama Artikel" style="margin-bottom: 10px" required>
                    
-                    
+                        <div>
+                            <textarea name="contentartikel" class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                        </div>
+                         
                         <input type="submit" name="tambahartikel" class="btn btn-primary" value="Tambah Artikel">
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
                     </div>

@@ -14,21 +14,21 @@
 class Artikel implements JsonSerializable{
     //put your code here
     private $noartikel;
+    private $judulartikel;
     private $contentartikel;
-    private $video;
     private $kdpenyakit;
     private $penyakit;
-    
+   
     function getNoartikel() {
         return $this->noartikel;
     }
 
-    function getContentartikel() {
-        return $this->contentartikel;
+    function getJudulartikel() {
+        return $this->judulartikel;
     }
 
-    function getVideo() {
-        return $this->video;
+    function getContentartikel() {
+        return $this->contentartikel;
     }
 
     function getKdpenyakit() {
@@ -43,12 +43,12 @@ class Artikel implements JsonSerializable{
         $this->noartikel = $noartikel;
     }
 
-    function setContentartikel($contentartikel) {
-        $this->contentartikel = $contentartikel;
+    function setJudulartikel($judulartikel) {
+        $this->judulartikel = $judulartikel;
     }
 
-    function setVideo($video) {
-        $this->video = $video;
+    function setContentartikel($contentartikel) {
+        $this->contentartikel = $contentartikel;
     }
 
     function setKdpenyakit($kdpenyakit) {
@@ -58,7 +58,6 @@ class Artikel implements JsonSerializable{
     function setPenyakit($penyakit) {
         $this->penyakit = $penyakit;
     }
-
         
     public function jsonSerialize()
     {

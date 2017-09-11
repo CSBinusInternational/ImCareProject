@@ -18,6 +18,8 @@ include_once 'dao/Penyakit.php';
 include_once 'dao/PenyakitDao.php';
 include_once 'dao/Video.php';
 include_once 'dao/VideoDao.php';
+include_once 'dao/Artikel.php';
+include_once 'dao/ArtikelDao.php';
 
 $penyakitdao = new PenyakitDao();
 $videodao = new VideoDao();
