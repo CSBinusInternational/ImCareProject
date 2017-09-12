@@ -19,6 +19,7 @@ class RsDao {
     //put your code here
     public function get_rs_row($row){
         $rs = new Rs();
+        $rs ->setIdrs($row['idrs']);
         $rs ->setKdrs($row['kdrs']);
         $rs ->setNmrs($row['nmrs']);
         $rs ->setAlmt($row['almt']);
@@ -100,5 +101,53 @@ class RsDao {
             echo $e -> getMessage();
         }
         return $rs;
+    }
+    
+    public function insert_rs($rs){
+        $result = 0;
+        try
+        {
+            $conn = Koneksi::get_connection();
+            $sql = "INSERT INTO rs(kdrs,nmrs,almt,kotars,kdposrs,kelurahanrs,kecamatanrs,telprs,faxrs,webrs,humasrs,longitude,latitude,kdpenyakit)  
+                    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $conn -> beginTransaction();
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindValue(1, $rs ->getKdrs());
+            $stmt -> bindValue(2, $rs ->getNmrs());
+            $stmt -> bindValue(3, $rs ->getAlmt());
+            $stmt -> bindValue(4, $rs ->getKotars());
+            $stmt -> bindValue(5, $rs ->getKdposrs());
+            $stmt -> bindValue(6, $rs ->getKelurahanrs());
+            $stmt -> bindValue(7, $rs ->getKecamatanrs());
+            $stmt -> bindValue(8, $rs ->getTelprs());
+            $stmt -> bindValue(9, $rs ->getFaxrs());
+            $stmt -> bindValue(10, $rs ->getWebrs());
+            $stmt -> bindValue(11, $rs ->getHumasrs());
+            $stmt -> bindValue(12, $rs ->getLongitude());
+            $stmt -> bindValue(13, $rs ->getLatitude());
+            $stmt -> bindValue(14, $rs ->getKdpenyakit());
+
+            $stmt -> execute();
+            $result = $conn ->lastInsertId();
+            $conn -> commit();
+        }
+        catch (PDOException $e)
+        {
+            echo $e -> getMessage();
+            $stmt -> rollBacxk();
+            die();
+        }
+        try
+        {
+            if(!empty($conn) || $conn != null)
+            {
+                $conn = null;
+            }
+        }
+        catch (PDOException $e)
+        {
+            echo $e -> getMessage();
+        }
+        return $result;	
     }
 }

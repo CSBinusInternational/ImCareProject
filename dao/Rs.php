@@ -13,6 +13,7 @@
  */
 class Rs implements JsonSerializable {
     //put your code 
+    private $idrs;
     private $kdrs;
     private $nmrs;
     private $almt;
@@ -29,6 +30,10 @@ class Rs implements JsonSerializable {
     private $kdpenyakit;
     private $penyakit;
     
+    function getIdrs() {
+        return $this->idrs;
+    }
+
     function getKdrs() {
         return $this->kdrs;
     }
@@ -89,6 +94,10 @@ class Rs implements JsonSerializable {
         return $this->penyakit;
     }
 
+    function setIdrs($idrs) {
+        $this->idrs = $idrs;
+    }
+
     function setKdrs($kdrs) {
         $this->kdrs = $kdrs;
     }
@@ -147,7 +156,7 @@ class Rs implements JsonSerializable {
 
     function setPenyakit($penyakit) {
         $this->penyakit = $penyakit;
-    }
+    }    
     
     public function jsonSerialize()
     {

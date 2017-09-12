@@ -20,9 +20,12 @@ include_once 'dao/Video.php';
 include_once 'dao/VideoDao.php';
 include_once 'dao/Artikel.php';
 include_once 'dao/ArtikelDao.php';
+include_once 'dao/Rs.php';
+include_once 'dao/RsDao.php';
 
 $penyakitdao = new PenyakitDao();
 $videodao = new VideoDao();
+$rsdao = new RsDao();
 
 ?>
 <!DOCTYPE html>
@@ -181,6 +184,9 @@ $videodao = new VideoDao();
                     break;
                 case "artikellist":
                     include_once 'view/artikellist.php';
+                    break;
+                case "semuarumahsakit":
+                    include_once 'view/rumahsakit.php';
                     break;
                 default:
                     include_once 'view/notimplemented.php';
