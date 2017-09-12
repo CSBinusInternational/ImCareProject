@@ -42,6 +42,38 @@ class RsDao {
         return $rs;
     }
     
+    public function get_rs_by_kota($kota)
+    {
+        $rss = new ArrayObject();
+        try 
+        {
+            $kota = "%".$kota."%";
+            $conn = Koneksi::get_connection();
+            $query = "SELECT * from rs where kotars like ?";
+            $stmt = $conn -> prepare($query);
+            $stmt -> bindParam(1, $kota);
+            $stmt -> execute();
+            if ($stmt -> rowCount() > 0) {
+                while ($row = $stmt -> fetch()) {
+                    $rs = $this ->get_rs_row($row);
+                    $rss->append($rs);
+                }
+            }
+        } 
+        catch (PDOException $e) {
+            echo $e -> getMessage();
+            die();
+        }
+        try {
+            if (!empty($conn) || $conn != null) {
+                $conn = null;
+            }
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+        }
+        return $rss;
+    }
+    
     public function get_all_rs()
     {
         $rss = new ArrayObject();

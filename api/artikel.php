@@ -9,7 +9,7 @@
         if(isset($_GET['kdpenyakit']))
         {
             $kdpenyakit = $_GET['kdpenyakit'];
-            $response = $artikeldao->get_artikel_by_kdpenyakit($kdpenyakit);
+            $response = $artikeldao->get_artikel_by_kdpenyakit($kdpenyakit)->getArrayCopy();
             if($response != null && isset($response))
             {
                 header('Content-type:application/json');
