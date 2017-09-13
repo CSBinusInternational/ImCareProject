@@ -1,4 +1,9 @@
 <?php
+$kota = "";
+if(isset($_GET['kota']))
+{
+    $kota = $_GET['kota'];
+}
 if(isset($_POST['tambahrs'])){
     $kdrs = $_POST['kdrs'];//1
     $nmrs = $_POST['nmrs'];//2
@@ -74,7 +79,7 @@ if(isset($_POST['tambahrs'])){
             <?php
                 $number = 1;
                 $rsdao = new RsDao();
-                $iterator = $rsdao->get_all_rs()->getIterator();
+                $iterator = $rsdao->get_rs_by_kota($kota)->getIterator();
                 while ($iterator -> valid()) 
                 {
                     echo "<tr>";
@@ -137,8 +142,9 @@ if(isset($_POST['tambahrs'])){
                         <input name="webrs" type="text" class="form-control" placeholder="Website Rumah Sakit" style="margin-bottom: 10px" required>
                         <input name="humasrs" type="text" class="form-control" placeholder="Humas Rumah Sakit" style="margin-bottom: 10px" required>
                         
-                        <input name="longitude" type="text" class="form-control" placeholder="Longitude Rumah Sakit" style="margin-bottom: 10px" required>
                         <input name="latitude" type="text" class="form-control" placeholder="Latitude Rumah Sakit" style="margin-bottom: 10px" required>
+                        <input name="longitude" type="text" class="form-control" placeholder="Longitude Rumah Sakit" style="margin-bottom: 10px" required>
+                        
                         
                         <input type="submit" name="tambahrs" class="btn btn-primary" value="Tambah Rumah Sakit">
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
