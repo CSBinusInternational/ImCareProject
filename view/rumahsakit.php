@@ -81,6 +81,7 @@ if(isset($_POST['tambahrs'])){
                 $iterator = $rsdao->get_rs_by_kota($kota)->getIterator();
                 while ($iterator -> valid()) 
                 {
+                    $idrs = $iterator->current()->getIdrs();
                     $kdrs = $iterator->current()->getKdrs();
                     $nmrs = $iterator->current()->getNmrs();
                     $almt = $iterator->current()->getAlmt();
@@ -104,7 +105,7 @@ if(isset($_POST['tambahrs'])){
                     echo "<td>".$faxrs."</td>";
                     echo "<td>";
                     echo "<button class='btn btn-info' onclick='detailRumahSakitModal(\"".$kdrs."\",\"".$nmrs."\",\"".$almt."\",\"".$kotars."\",\"".$kdposrs."\",\"".$kelurahanrs."\",\"".$kecamatanrs."\",\"".$telprs."\",\"".$faxrs."\",\"".$webrs."\",\"".$humasrs."\",\"".$latitude."\",\"".$longitude."\")'>Detail</button>";
-                    echo "<button class='btn btn-danger'>Hapus</button>";
+                    echo "<button class='btn btn-danger' onclick='removeRs(".$idrs.")'>Hapus</button>";
                     echo "</td>";
                     echo "</tr>";
                     $number++;

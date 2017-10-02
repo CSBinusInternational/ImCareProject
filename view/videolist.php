@@ -46,7 +46,7 @@ else{
                     echo "<td>".$iterator->current()->getJudulvideo()."</td>";
                     echo "<td><a href=".$iterator->current()->getUrlvideo().">".$iterator->current()->getUrlvideo()."</a></td>";
                     echo "<td>";
-                    echo "<button class='btn btn-danger'>Hapus</button>";
+                    echo "<button class='btn btn-danger' onclick='removeVideo(".$iterator->current()->getNovideo().",".$iterator->current()->getKdpenyakit().")'>Hapus</button>";
                     echo "</td>";
                     echo "</tr>";
                     $number++;

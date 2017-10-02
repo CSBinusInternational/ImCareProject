@@ -47,7 +47,7 @@ else{
                     $urlartikel = "https://imcare.000webhostapp.com/view/viewartikel.php?noartikel=".$iterator->current()->getNoartikel();
                     echo "<td><a href=".$urlartikel.">".$urlartikel."</a></td>";
                     echo "<td>";
-                    echo "<button class='btn btn-danger'>Hapus</button>";
+                    echo "<button class='btn btn-danger' onclick='removeArtikel(".$iterator->current()->getNoartikel().",".$iterator->current()->getKdpenyakit().")'>Hapus</button>";
                     echo "</td>";
                     echo "</tr>";
                     $number++;
