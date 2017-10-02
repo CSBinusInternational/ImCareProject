@@ -43,7 +43,6 @@ if(isset($_POST['tambahrs'])){
     
 }
 ?>
-
 <div class="row">
     <div class="col-xs-12">
         <button class="btn btn-primary" data-toggle='modal' style="margin:5px" onclick="showAddRs()">Tambah Info Rumah Sakit</button>
@@ -82,15 +81,29 @@ if(isset($_POST['tambahrs'])){
                 $iterator = $rsdao->get_rs_by_kota($kota)->getIterator();
                 while ($iterator -> valid()) 
                 {
+                    $kdrs = $iterator->current()->getKdrs();
+                    $nmrs = $iterator->current()->getNmrs();
+                    $almt = $iterator->current()->getAlmt();
+                    $kotars = $iterator->current()->getKotars();
+                    $kdposrs = $iterator->current()->getKdposrs();
+                    $kelurahanrs = $iterator->current()->getKelurahanrs();
+                    $kecamatanrs = $iterator->current()->getKecamatanrs();
+                    $telprs = $iterator->current()->getTelprs();
+                    $faxrs = $iterator->current()->getFaxrs();
+                    $webrs = $iterator->current()->getWebrs();
+                    $humasrs = $iterator->current()->getHumasrs();
+                    $latitude = $iterator->current()->getLatitude();
+                    $longitude = $iterator->current()->getLongitude();
+                    
                     echo "<tr>";
                     echo "<td>".$number."</td>";
-                    echo "<td>".$iterator->current()->getNmrs()."</td>";
-                    echo "<td>".$iterator->current()->getAlmt()."</td>";
-                    echo "<td>".$iterator->current()->getKotars()."</td>";
-                    echo "<td>".$iterator->current()->getTelprs()."</td>";
-                    echo "<td>".$iterator->current()->getFaxrs()."</td>";
+                    echo "<td>".$nmrs."</td>";
+                    echo "<td>".$almt."</td>";
+                    echo "<td>".$kotars."</td>";
+                    echo "<td>".$telprs."</td>";
+                    echo "<td>".$faxrs."</td>";
                     echo "<td>";
-                    echo "<button class='btn btn-info'>Detail</button>";
+                    echo "<button class='btn btn-info' onclick='detailRumahSakitModal(\"".$kdrs."\",\"".$nmrs."\",\"".$almt."\",\"".$kotars."\",\"".$kdposrs."\",\"".$kelurahanrs."\",\"".$kecamatanrs."\",\"".$telprs."\",\"".$faxrs."\",\"".$webrs."\",\"".$humasrs."\",\"".$latitude."\",\"".$longitude."\")'>Detail</button>";
                     echo "<button class='btn btn-danger'>Hapus</button>";
                     echo "</td>";
                     echo "</tr>";
@@ -110,6 +123,20 @@ if(isset($_POST['tambahrs'])){
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <script>
+    function detailRumahSakitModal(kdrs,nmrs,almt,kotars,kdposrs,kelurahanrs,kecamatanrs,telprs,faxrs,webrs,humasrs,latitude,longitude)
+    {
+     
+        
+        $("#detailRumahSakitModal .nmrs").html("RS : "+nmrs + " ("+kdrs+")");
+        $("#detailRumahSakitModal .almt").html(almt+", "+kelurahanrs+", "+kecamatanrs+", Kota "+kotars+" "+kdposrs);
+        $("#detailRumahSakitModal .telprs").html("Telp : "+telprs);
+        $("#detailRumahSakitModal .faxrs").html("Fax : "+faxrs);
+        $("#detailRumahSakitModal .webrs").html("Website : "+webrs);
+        $("#detailRumahSakitModal .humasrs").html(humasrs);
+        $("#detailRumahSakitModal .latitude").val(latitude);
+        $("#detailRumahSakitModal .longitude").val(longitude);
+        $('#detailRumahSakitModal').modal();
+    }
     function showAddRs()
     {
         $('#addRsModal').modal();
@@ -154,6 +181,45 @@ if(isset($_POST['tambahrs'])){
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="detailRumahSakitModal" tabindex="-1" role="dialog" aria-labelledby="Book">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+            
+	  <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h4 class="modal-title" id="myModalLabel">Detail Rumah Sakit</h4>
+	  </div>
+            
+            
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h1 class="nmrs"></h1>
+                    <h4 class="almt"></h4>
+                    <h3> Kontak Rumah Sakit </h3>
+                    <h4 class="telprs"></h4>
+                    <h4 class="faxrs"></h4>
+                    <h4 class="webrs"></h4>
+                    <h3> Humas Rumah Sakit </h3>
+                    <h4 class="humasrs"></h4>
+                    
+
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal" aria-label="Close">Tutup</button>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+  
         </div>
     </div>
   </div>
