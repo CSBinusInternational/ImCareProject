@@ -135,8 +135,8 @@ $rsdao = new RsDao();
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="index.php?page=unknown"><i class="fa fa-circle-o"></i> Pertanyaan</a></li>
-                <li><a href="index.php?page=unknown"><i class="fa fa-circle-o"></i> Jawaban</a></li>
+                <li><a href="view/pertanyaandiagnosa.php"><i class="fa fa-circle-o"></i> Pertanyaan</a></li>
+                <li><a href="index.php?page=jawabandiagnosa"><i class="fa fa-circle-o"></i> Jawaban</a></li>
               </ul>
             </li>
             <li>
@@ -189,6 +189,12 @@ $rsdao = new RsDao();
                 case "wilayahrumahsakit":
                     include_once 'view/wilayahrumahsakit.php';
                     break;
+                case "penyakitrumahsakit":
+                    include_once 'view/penyakitrumahsakit.php';
+                    break;
+//                case "pertanyaandiagnosa":
+//                    include_once 'view/pertanyaandiagnosa.php';
+//                    break;
                 default:
                     include_once 'view/notimplemented.php';
                     break;
