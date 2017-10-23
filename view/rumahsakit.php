@@ -55,10 +55,10 @@ if(isset($_POST['tambahrs'])){
 
                 <div class="input-group" style="width: 150px;">
 
-                  <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
+                    <a href="view/RSReport.php" name="table_search" class="btn btn-warning input-sm pull-right" >Print</a>
                   
                   <div class="input-group-btn">
-                      <button class="btn btn-sm btn-default" ><i class="fa fa-search"></i></button>
+             
                     
                   </div>
                 </div>
