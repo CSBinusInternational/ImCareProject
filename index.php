@@ -192,6 +192,9 @@ $rsdao = new RsDao();
                 case "penyakitrumahsakit":
                     include_once 'view/penyakitrumahsakit.php';
                     break;
+                case "penyakitrs":
+                    include_once 'view/penyakitrs.php';
+                    break;
 //                case "pertanyaandiagnosa":
 //                    include_once 'view/pertanyaandiagnosa.php';
 //                    break;

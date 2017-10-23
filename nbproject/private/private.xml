@@ -3,18 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/ImCareProject/view/artikellist.php</file>
-            <file>file:/C:/xampp/htdocs/ImCareProject/view/rumahsakit.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/function/deleteartikel.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/index.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/infopenyakit.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/dao/ArtikelDao.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/pertanyaandiagnosa.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/viewartikel.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/artikellist.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/rumahsakit.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/function/function.js</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/function/deletevideo.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/function/deleterumahsakit.php</file>
-            <file>file:/C:/xampp/htdocs/ImCareProject/view/infopenyakit.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/penyakitrumahsakit.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/view/videolist.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/dao/VideoDao.php</file>
             <file>file:/C:/xampp/htdocs/ImCareProject/dao/RsDao.php</file>
-            <file>file:/C:/xampp/htdocs/ImCareProject/dao/ArtikelDao.php</file>
+            <file>file:/C:/xampp/htdocs/ImCareProject/view/wilayahrumahsakit.php</file>
         </group>
     </open-files>
 </project-private>

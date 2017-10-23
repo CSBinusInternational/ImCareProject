@@ -74,6 +74,42 @@ class RsDao {
         return $rss;
     }
     
+    
+    public function get_rs_kdpenyakit($kdpenyakit)
+    {
+        $rss = new ArrayObject();
+        try 
+        {
+            $conn = Koneksi::get_connection();
+            $query = "SELECT * from rs 
+                      WHERE idrs IN
+                      (SELECT idrs
+                       FROM penyakitrs
+                       WHERE kdpenyakit = ?)";
+            $stmt = $conn -> prepare($query);
+            $stmt -> bindParam(1, $kdpenyakit);;
+            $stmt -> execute();
+            if ($stmt -> rowCount() > 0) {
+                while ($row = $stmt -> fetch()) {
+                    $rs = $this ->get_rs_row($row);
+                    $rss->append($rs);
+                }
+            }
+        } 
+        catch (PDOException $e) {
+            echo $e -> getMessage();
+            die();
+        }
+        try {
+            if (!empty($conn) || $conn != null) {
+                $conn = null;
+            }
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+        }
+        return $rss;
+    }
+    
     public function get_all_rs()
     {
         $rss = new ArrayObject();
@@ -82,6 +118,42 @@ class RsDao {
             $conn = Koneksi::get_connection();
             $query = "SELECT * from rs";
             $stmt = $conn -> prepare($query);
+            $stmt -> execute();
+            if ($stmt -> rowCount() > 0) {
+                while ($row = $stmt -> fetch()) {
+                    $rs = $this ->get_rs_row($row);
+                    $rss->append($rs);
+                }
+            }
+        } 
+        catch (PDOException $e) {
+            echo $e -> getMessage();
+            die();
+        }
+        try {
+            if (!empty($conn) || $conn != null) {
+                $conn = null;
+            }
+        } catch (PDOException $e) {
+            echo $e -> getMessage();
+        }
+        return $rss;
+    }
+    
+    
+    public function get_all_rs_no_penyakit($kdpenyakit)
+    {
+        $rss = new ArrayObject();
+        try 
+        {
+            $conn = Koneksi::get_connection();
+            $query = "SELECT * from rs
+                      WHERE idrs NOT IN(
+                      SELECT idrs
+                      FROM penyakitrs
+                      WHERE kdpenyakit = ?)";
+            $stmt = $conn -> prepare($query);
+            $stmt -> bindParam(1, $kdpenyakit);;
             $stmt -> execute();
             if ($stmt -> rowCount() > 0) {
                 while ($row = $stmt -> fetch()) {
@@ -135,6 +207,43 @@ class RsDao {
         return $rs;
     }
     
+    public function insert_rs_penyakit($idrs,$kdpenyakit){
+         $result = 0;
+        try
+        {
+            $conn = Koneksi::get_connection();
+            $sql = "INSERT INTO penyakitrs(idrs,kdpenyakit)  
+                    VALUES(?,?)";
+            $conn -> beginTransaction();
+            $stmt = $conn -> prepare($sql);
+            $stmt -> bindValue(1, $idrs);
+            $stmt -> bindValue(2, $kdpenyakit);
+
+            $stmt -> execute();
+            $result = $conn ->lastInsertId();
+            $conn -> commit();
+        }
+        catch (PDOException $e)
+        {
+            echo $e -> getMessage();
+            $stmt -> rollBacxk();
+            die();
+        }
+        try
+        {
+            if(!empty($conn) || $conn != null)
+            {
+                $conn = null;
+            }
+        }
+        catch (PDOException $e)
+        {
+            echo $e -> getMessage();
+        }
+        return $result;	
+         
+    }
+     
     public function insert_rs($rs){
         $result = 0;
         try

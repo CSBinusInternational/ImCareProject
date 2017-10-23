@@ -36,7 +36,7 @@
                     echo "<td>".$iterator->current()->getNmpenyakit()."</td>";
                     echo 
                      "<td>"
-                    . "<a class='btn btn-danger' style='margin:5px; width:99%;' href=index.php?page=penyakitrumahsakit&kdpenyakit=".$iterator->current()->getKdpenyakit().">Informasi Daftar Rumah Sakit</button>"
+                    . "<a class='btn btn-danger' style='margin:5px; width:99%;' href=index.php?page=penyakitrs&kdpenyakit=".$iterator->current()->getKdpenyakit().">Informasi Daftar Rumah Sakit</button>"
                     . "</td>";
                     echo "</tr>";
                     $number++;
