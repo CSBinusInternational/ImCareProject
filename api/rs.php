@@ -31,6 +31,15 @@
             
             echo json_encode($response,JSON_PRETTY_PRINT);
         }
+        else if(isset($_GET['kdpenyakit']))
+        {
+            $kdpenyakit = $_GET['kdpenyakit'];
+            header('Content-type:application/json');
+            http_response_code(200);
+            
+            $response = $rsDao->get_rs_kdpenyakit($kdpenyakit)->getArrayCopy();
+            echo json_encode($response,JSON_PRETTY_PRINT);
+        }
         else
         {
             header('Content-type:application/json');

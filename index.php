@@ -22,6 +22,8 @@ include_once 'dao/Artikel.php';
 include_once 'dao/ArtikelDao.php';
 include_once 'dao/Rs.php';
 include_once 'dao/RsDao.php';
+include_once 'dao/Diagnosa.php';
+include_once 'dao/DiagnosaDao.php';
 
 $penyakitdao = new PenyakitDao();
 $videodao = new VideoDao();
@@ -92,7 +94,7 @@ $rsdao = new RsDao();
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">Admin</span>
                 </a>
                
               </li>
@@ -198,6 +200,9 @@ $rsdao = new RsDao();
 //                case "pertanyaandiagnosa":
 //                    include_once 'view/pertanyaandiagnosa.php';
 //                    break;
+                case "jawabandiagnosa":
+                    include_once 'view/jawabandiagnosa.php';
+                    break;
                 default:
                     include_once 'view/notimplemented.php';
                     break;

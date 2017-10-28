@@ -1,4 +1,11 @@
+<?php
+include_once '../function/config.php';
+include_once '../function/koneksi.php';
+include_once '../dao/Diagnosa.php';
+include_once '../dao/DiagnosaDao.php';
 
+$diagnosadao = new DiagnosaDao();
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -267,7 +274,13 @@
 </script>
 
 <?php
-echo $p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6."|".$p7."|".$p8."|".$p9."|".$p10."|".$p11."|".$p12."|".$p14."|".$p15."|".$p16;
-echo "<br>".$diabetes."|".$ginjal."|".$hipertensi."|".$lemak;
+ if(isset($_POST['submit'])){
+    $hasildiagnosa = $p1."|".$p2."|".$p3."|".$p4."|".$p5."|".$p6."|".$p7."|".$p8."|".$p9."|".$p10."|".$p11."|".$p12."|".$p14."|".$p15."|".$p16;
+    $hasildiagnosa .= "|".$diabetes."|".$ginjal."|".$hipertensi."|".$lemak;
 
+    $diagnosa = new Diagnosa();
+    $diagnosa->setHasildiagnosa($hasildiagnosa);
+
+    $diagnosadao->insert_diagnosa($diagnosa);
+ }
 ?>
